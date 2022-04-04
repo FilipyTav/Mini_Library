@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../css/lib.css" />
+        <script src="../js/lib.js" defer></script>
+        <title>Mini library</title>
+    </head>
+    <body>
+        <button class="add_book_btn">Add book</button>
+        <div class="add_book_panel" id="add_book_panel">
+            <div class="add_book_header">
+                <div class="title">Add book</div>
+                <button data_close_button class="close_button">&times;</button>
+            </div>
+
+            <div class="add_book_body">
+                <form action="" id="form">
+                    <div class="add_book_input">
+                        <label for="book_title">Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="book_title"
+                            required
+                        />
+                    </div>
+
+                    <div class="add_book_input">
+                        <label for="book_author">Author</label>
+                        <input
+                            type="text"
+                            name="author"
+                            id="book_author"
+                            required
+                        />
+                    </div>
+
+                    <div class="add_book_input">
+                        <label for="book_pages">Pages</label>
+                        <input
+                            type="number"
+                            name="pages"
+                            id="book_pages"
+                            required
+                        />
+                    </div>
+
+                    <div class="add_book_input">
+                        <label for="book_have_read">
+                            Have you already read it?
+                        </label>
+                        <input
+                            type="checkbox"
+                            name="have_read"
+                            id="book_have_read"
+                        />
+                    </div>
+
+                    <button type="submit" id="submit_book">Add</button>
+                </form>
+            </div>
+        </div>
+        <div class="library">
+            <div class="book"></div>
+        </div>
+
+        <div id="overlay"></div>
+    </body>
+</html>
