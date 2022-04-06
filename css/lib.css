@@ -5,15 +5,19 @@
     box-sizing: border-box;
 }
 
-.library {
-    padding: 15px;
+body {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
 }
 
-.book {
-    background: turquoise;
-    width: 250px;
-    height: 300px;
-    padding: 15px;
+button {
+    cursor: pointer;
+}
+
+.btn {
+    border: none;
+    padding: 10px 30px;
+    border-radius: 10px;
 }
 
 .add_book_panel {
@@ -74,4 +78,35 @@
 #overlay.active {
     pointer-events: all;
     opacity: 1;
+}
+
+.library {
+    padding: 15px;
+    background: mistyrose;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 32%));
+    gap: 15px;
+    place-items: center;
+}
+
+.book {
+    background: turquoise;
+    width: 250px;
+    height: 300px;
+    padding: 15px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.right_bar {
+    background: rebeccapurple;
+    display: grid;
+    place-items: center;
+    position: sticky;
+    top: 0;
+    height: 100vh;
 }
