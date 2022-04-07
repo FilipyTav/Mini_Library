@@ -39,17 +39,32 @@ function add_book_to_library() {
 
             let author_section = document.createElement("div");
             author_section.setAttribute("data-author", "");
-            author_section.textContent = book.author;
+            author_section.textContent = `By ${book.author}`;
             sections.push(author_section);
 
             let pages_section = document.createElement("div");
             pages_section.setAttribute("data-pages", "");
-            pages_section.textContent = book.pages;
+            pages_section.textContent = `${book.pages} pages`;
             sections.push(pages_section);
 
-            let have_read_section = document.createElement("div");
+            let have_read_section = document.createElement("button");
             have_read_section.setAttribute("data-have_read", "");
-            have_read_section.textContent = book.have_read;
+            have_read_section.classList.add("read_stat_btn");
+
+            manage_btns(
+                ".read_stat_btn",
+                "click",
+                toggle_read_stat,
+                ".library"
+            );
+
+            if (book.have_read === true) {
+                have_read_section.textContent = "Already read";
+                have_read_section.classList.add("read");
+            } else {
+                have_read_section.textContent = "Yet to read";
+                have_read_section.classList.add("readnt");
+            }
             sections.push(have_read_section);
 
             let delete_book_btn = document.createElement("button");
@@ -217,20 +232,14 @@ function delete_book(e) {
     });
 }
 
-// The library array, containing all Book objects
-let library = [];
-function main() {
-    manage_add_book_panel();
-
-    add_book_to_library();
-
-    manage_delete_book_buttons();
-}
-
+// Controls the label for the have_read input
 function toggle_checkbox_label() {
+    // The input and the label
     const read_input = document.querySelector("#book_have_read");
     const read_label = document.querySelector(".label_ckbox");
 
+    // When the input is toggled, change the colors and text
+    // depending on wheter it's checked or not
     read_input.addEventListener("change", () => {
         if (read_input.checked) {
             read_label.setAttribute(
@@ -247,4 +256,56 @@ function toggle_checkbox_label() {
         );
         read_label.textContent = "No";
     });
+}
+
+// The library array, containing all Book objects
+let library = [];
+function main() {
+    manage_add_book_panel();
+
+    add_book_to_library();
+
+    manage_delete_book_buttons();
+}
+
+function manage_btns(buttons, event, callback, parent_element) {
+    // Characteristics to be observed
+    const characteristic = {
+        childList: true,
+    };
+
+    // Function to be executed when a change is observed
+    const when_changed = function (mutation_list) {
+        let btns = document.querySelectorAll(`${buttons}`);
+
+        btns.forEach((btn) => {
+            btn.addEventListener(`${event}`, callback);
+        });
+    };
+
+    // New observer based on the parameters above
+    const observer = new MutationObserver(when_changed);
+
+    let par = document.querySelector(`${parent_element}`);
+
+    // Watch for when books are added or removed from the library
+    observer.observe(par, characteristic);
+}
+
+function toggle_read_stat(e) {
+    const target = e.target;
+    const book_index = target.parentElement.getAttribute("data_id");
+    let already_read = library[book_index].have_read;
+
+    if (target.textContent === "Already read" && already_read === true) {
+        target.classList.remove("read");
+        target.classList.add("readnt");
+        target.textContent = "Yet to read";
+        library[book_index].have_read = false;
+    } else {
+        target.classList.remove("readnt");
+        target.classList.add("read");
+        target.textContent = "Already read";
+        library[book_index].have_read = true;
+    }
 }

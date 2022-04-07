@@ -47,10 +47,11 @@ button {
 
 .add_book_header {
     padding: 10px 15px;
+    border-bottom: 1px solid var(--dark_color);
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--dark_color);
 }
 
 .add_book_header .title {
@@ -113,13 +114,14 @@ input[type="checkbox"] {
     display: none;
 }
 
-input[type="checkbox"] + label {
+form input[type="checkbox"] + label {
     background: rgb(176, 235, 161);
     color: green;
     border-radius: 15px;
     padding: 5px 10px;
     width: 60px;
     text-align: center;
+    user-select: none;
 }
 
 #form button:last-child {
@@ -157,23 +159,81 @@ input[type="checkbox"] + label {
 .library {
     padding: 15px;
     background: var(--dark_color);
+
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 32%));
     gap: 15px;
     place-items: center;
+    justify-content: center;
 }
 
 .book {
     background: var(--main_color);
+    color: var(--light_color);
     width: 250px;
     height: 300px;
     padding: 15px;
+    border-radius: 20px;
+
     display: flex;
     flex-flow: column wrap;
     align-items: center;
     justify-content: space-around;
     font-weight: bold;
     font-size: 1.3rem;
+}
+
+.book > div {
+    width: 100%;
+    text-align: center;
+}
+
+.read_stat_btn {
+    padding: 8px 0;
+    width: 250px;
+    position: relative;
+    left: -15px;
+
+    border: none;
+    color: var(--dark_color);
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.read {
+    background: rgb(176, 235, 161);
+}
+
+.read:hover {
+    background: rgb(151, 235, 130);
+}
+
+.readnt {
+    background: rgb(235, 176, 161);
+}
+
+.readnt:hover {
+    background: rgb(228, 154, 135);
+}
+
+.read,
+.readnt {
+    text-align: center;
+}
+
+.delete_btn {
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid var(--light_color);
+    padding: 5px 15px;
+    border-radius: 8px;
+    background: var(--main_color);
+    color: var(--light_color);
+}
+
+.delete_btn:hover {
+    color: var(--main_color);
+    background: var(--light_color);
 }
 
 .gap {
