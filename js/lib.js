@@ -51,13 +51,6 @@ function add_book_to_library() {
             have_read_section.setAttribute("data-have_read", "");
             have_read_section.classList.add("read_stat_btn");
 
-            manage_btns(
-                ".read_stat_btn",
-                "click",
-                toggle_read_stat,
-                ".library"
-            );
-
             if (book.have_read === true) {
                 have_read_section.textContent = "Already read";
                 have_read_section.classList.add("read");
@@ -186,31 +179,6 @@ function purge_all_children(parent) {
     }
 }
 
-// Constrols the functionality of the "delete book" button
-function manage_delete_book_buttons() {
-    // Characteristics to be observed
-    const characteristic = {
-        childList: true,
-    };
-
-    // Function to be executed when a change is observed
-    const when_changed = function (mutation_list) {
-        let dlt_btns = document.querySelectorAll(".delete_btn");
-
-        dlt_btns.forEach((dlt_btn) => {
-            dlt_btn.addEventListener("click", delete_book);
-        });
-    };
-
-    // New observer based on the parameters above
-    const observer = new MutationObserver(when_changed);
-
-    let lib = document.querySelector(".library");
-
-    // Watch for when books are added or removed from the library
-    observer.observe(lib, characteristic);
-}
-
 // Deletes the book from the library
 function delete_book(e) {
     // The book of which the delete button was clicked
@@ -258,16 +226,6 @@ function toggle_checkbox_label() {
     });
 }
 
-// The library array, containing all Book objects
-let library = [];
-function main() {
-    manage_add_book_panel();
-
-    add_book_to_library();
-
-    manage_delete_book_buttons();
-}
-
 function manage_btns(buttons, event, callback, parent_element) {
     // Characteristics to be observed
     const characteristic = {
@@ -288,15 +246,19 @@ function manage_btns(buttons, event, callback, parent_element) {
 
     let par = document.querySelector(`${parent_element}`);
 
-    // Watch for when books are added or removed from the library
+    // Watch for when children are added or removed from the parent
     observer.observe(par, characteristic);
 }
 
+// When the button is clicked, the read status of the book is toggled
 function toggle_read_stat(e) {
+    // The button clicked and its parent element (the book)
     const target = e.target;
     const book_index = target.parentElement.getAttribute("data_id");
     let already_read = library[book_index].have_read;
 
+    // If it is already read, set it to not read yet and vice versa
+    // also changes the Book obj
     if (target.textContent === "Already read" && already_read === true) {
         target.classList.remove("read");
         target.classList.add("readnt");
@@ -308,4 +270,25 @@ function toggle_read_stat(e) {
         target.textContent = "Already read";
         library[book_index].have_read = true;
     }
+}
+
+// Controls the functionality of the "delete book" button
+function manage_delete_book_buttons() {
+    manage_btns(".delete_btn", "click", delete_book, ".library");
+}
+
+function manage_toggle_read_stat_buttons() {
+    manage_btns(".read_stat_btn", "click", toggle_read_stat, ".library");
+}
+
+// The library array, containing all Book objects
+let library = [];
+function main() {
+    manage_add_book_panel();
+
+    add_book_to_library();
+
+    manage_delete_book_buttons();
+
+    manage_toggle_read_stat_buttons();
 }
