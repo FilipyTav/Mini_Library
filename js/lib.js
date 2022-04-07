@@ -54,6 +54,7 @@ function add_book_to_library() {
 
             let delete_book_btn = document.createElement("button");
             delete_book_btn.textContent = "Delete book";
+            delete_book_btn.classList.add("delete_btn");
             sections.push(delete_book_btn);
 
             // Attaches all sections to the book element
@@ -73,6 +74,8 @@ function main() {
     manage_add_book_panel();
 
     add_book_to_library();
+
+    manage_delete_book_buttons();
 }
 
 // Controls the functionality of the add_book button and form
@@ -174,4 +177,50 @@ function purge_all_children(parent) {
     while (parent.hasChildNodes()) {
         parent.removeChild(parent.lastChild);
     }
+}
+
+// Constrols the functionality of the "delete book" button
+function manage_delete_book_buttons() {
+    // Characteristics to be observed
+    const characteristic = {
+        childList: true,
+    };
+
+    // Function to be executed when a change is observed
+    const when_changed = function (mutation_list) {
+        let dlt_btns = document.querySelectorAll(".delete_btn");
+
+        dlt_btns.forEach((dlt_btn) => {
+            dlt_btn.addEventListener("click", delete_book);
+        });
+    };
+
+    // New observer based on the parameters above
+    const observer = new MutationObserver(when_changed);
+
+    let lib = document.querySelector(".library");
+
+    // Watch for when books are added or removed from the library
+    observer.observe(lib, characteristic);
+}
+
+// Deletes the book from the library
+function delete_book(e) {
+    // The book of which the delete button was clicked
+    const book = e.target.parentElement;
+    // This book data_id attribute, which is also its index in the library array
+    const book_index = book.getAttribute("data_id");
+
+    // Remove the book from the library array
+    library.splice(book_index, 1);
+
+    // Remove the book from the display
+    book.remove();
+
+    // Shifts the value of the data_id attribute
+    // when one of the books is deleted, as to not leave any gaps
+    const lib_books = document.querySelectorAll(".book");
+    lib_books.forEach((lib_book, index) => {
+        lib_book.setAttribute("data_id", index);
+    });
 }
