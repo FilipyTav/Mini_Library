@@ -68,16 +68,6 @@ function add_book_to_library() {
     });
 }
 
-// The library array, containing all Book objects
-let library = [];
-function main() {
-    manage_add_book_panel();
-
-    add_book_to_library();
-
-    manage_delete_book_buttons();
-}
-
 // Controls the functionality of the add_book button and form
 function manage_add_book_panel() {
     let add_book_btn = document.querySelectorAll(".add_book_btn");
@@ -93,6 +83,7 @@ function manage_add_book_panel() {
     add_book_btn.forEach((button) =>
         button.addEventListener("click", () => {
             const panel = document.querySelector("#add_book_panel");
+
             open_panel(panel);
         })
     );
@@ -115,6 +106,7 @@ function manage_add_book_panel() {
     });
 
     get_panel_input();
+    toggle_checkbox_label();
 }
 
 // Gets the form input for adding a new book
@@ -222,5 +214,37 @@ function delete_book(e) {
     const lib_books = document.querySelectorAll(".book");
     lib_books.forEach((lib_book, index) => {
         lib_book.setAttribute("data_id", index);
+    });
+}
+
+// The library array, containing all Book objects
+let library = [];
+function main() {
+    manage_add_book_panel();
+
+    add_book_to_library();
+
+    manage_delete_book_buttons();
+}
+
+function toggle_checkbox_label() {
+    const read_input = document.querySelector("#book_have_read");
+    const read_label = document.querySelector(".label_ckbox");
+
+    read_input.addEventListener("change", () => {
+        if (read_input.checked) {
+            read_label.setAttribute(
+                "style",
+                "color: green; background: rgb(176, 235, 161)"
+            );
+            read_label.textContent = "Yes";
+            return;
+        }
+
+        read_label.setAttribute(
+            "style",
+            "color: red; background: rgb(235, 176, 161)"
+        );
+        read_label.textContent = "No";
     });
 }

@@ -113,8 +113,13 @@ input[type="checkbox"] {
     display: none;
 }
 
-input[type="checkbox"]:checked + label {
-    background: #000;
+input[type="checkbox"] + label {
+    background: rgb(176, 235, 161);
+    color: green;
+    border-radius: 15px;
+    padding: 5px 10px;
+    width: 60px;
+    text-align: center;
 }
 
 #form button:last-child {
