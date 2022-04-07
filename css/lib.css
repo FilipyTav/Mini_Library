@@ -1,3 +1,10 @@
+:root {
+    --dark_color: #2b262d;
+    --secondary_color: #9f496e;
+    --main_color: #647295;
+    --light_color: #f2ebe5;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +14,7 @@
 
 body {
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 4fr 5px 1fr;
 }
 
 button {
@@ -22,14 +29,15 @@ button {
 
 .add_book_panel {
     position: fixed;
+    color: var(--light_color);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border: 1px solid red;
+    border: 4px solid var(--main_color);
     border-radius: 15px;
     z-index: 10;
-    background: white;
+    background: var(--secondary_color);
     max-width: 80%;
 }
 
@@ -42,7 +50,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid blue;
+    border-bottom: 1px solid var(--dark_color);
 }
 
 .add_book_header .title {
@@ -61,6 +69,67 @@ button {
 
 .add_book_body {
     padding: 15px 10px;
+}
+
+#form {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 20px;
+    justify-content: center;
+
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#form > * {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+input[type="text"],
+input[type="number"] {
+    background: var(--light_color);
+    text-align: center;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    padding: 5px;
+    border-radius: 15px;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover {
+    background: #ebd8c8;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border: 2px solid var(--main_color);
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"]:checked + label {
+    background: #000;
+}
+
+#form button:last-child {
+    font-weight: bold;
+    align-self: end;
+    border: 2px solid var(--light_color);
+    padding: 5px 15px;
+    border-radius: 10px;
+    background: var(--secondary_color);
+    color: var(--light_color);
+}
+
+#form button:last-child:hover {
+    color: var(--secondary_color);
+    background: var(--light_color);
 }
 
 #overlay {
@@ -82,7 +151,7 @@ button {
 
 .library {
     padding: 15px;
-    background: mistyrose;
+    background: var(--dark_color);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 32%));
     gap: 15px;
@@ -90,7 +159,7 @@ button {
 }
 
 .book {
-    background: turquoise;
+    background: var(--main_color);
     width: 250px;
     height: 300px;
     padding: 15px;
@@ -102,8 +171,12 @@ button {
     font-size: 1.3rem;
 }
 
+.gap {
+    box-shadow: inset 0px 0px 10px var(--main_color);
+}
+
 .right_bar {
-    background: rebeccapurple;
+    background: #3d3441;
     display: grid;
     place-items: center;
     position: sticky;
