@@ -92,6 +92,18 @@ function manage_add_book_panel() {
         button.addEventListener("click", () => {
             const panel = document.querySelector("#add_book_panel");
 
+            // Prevents the user from selecting a negative or too big number of pages
+            const pg_number = document.querySelector("#book_pages");
+            pg_number.addEventListener("change", () => {
+                pg_number.value < 0
+                    ? (pg_number.value = 0)
+                    : (pg_number.value = pg_number.value);
+
+                pg_number.value > 100000
+                    ? (pg_number.value = 100000)
+                    : (pg_number.value = pg_number.value);
+            });
+
             open_panel(panel);
         })
     );
@@ -118,7 +130,7 @@ function manage_add_book_panel() {
 }
 
 // Gets the form input for adding a new book
-// TODO: Add form validation
+// TODO: If the input is long enough, the text overflows
 function get_panel_input() {
     let form = document.querySelector("#form");
 
@@ -136,9 +148,27 @@ function get_panel_input() {
 
         // Collects the inputs
         let book_data = new FormData(form);
-        title = book_data.get("title");
-        author = book_data.get("author");
+
+        // Checks for empty input
+        title = book_data.get("title").trim();
+        if (!title) {
+            alert("Invalid book title");
+            return false;
+        }
+
+        // Checks for empty input
+        author = book_data.get("author").trim();
+        if (!author) {
+            alert("Invalid book author");
+            return false;
+        }
+
+        // Checks for invalid input
         pages = book_data.get("pages");
+        if (!pages || isNaN(pages) || pages < 0 || pages > 100000) {
+            alert("Invalid number of pages");
+            return false;
+        }
 
         let checkbox = document.querySelector("#book_have_read");
 
@@ -149,6 +179,12 @@ function get_panel_input() {
 
         // Adds the book to the library array
         library.push(book);
+
+        // Resets the input fields
+        let form_inputs = document.querySelectorAll("input");
+        form_inputs.forEach((input) => {
+            input.value = "";
+        });
 
         // Closes the panel afterwards
         const panel = document.querySelector(".add_book_panel");
