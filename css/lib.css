@@ -161,25 +161,24 @@ form input[type="checkbox"] + label {
     background: var(--dark_color);
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 32%));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 15px;
-    place-items: center;
-    justify-content: center;
 }
 
 .book {
     background: var(--main_color);
     color: var(--light_color);
-    width: 250px;
-    height: 300px;
     padding: 15px;
     border-radius: 20px;
+    max-height: 400px;
 
     display: flex;
     flex-flow: column wrap;
     align-items: center;
     align-content: center;
     justify-content: space-around;
+    gap: 15px;
+
     font-weight: bold;
     font-size: 1.3rem;
 }
@@ -191,7 +190,8 @@ form input[type="checkbox"] + label {
 
 .read_stat_btn {
     padding: 8px 0;
-    width: 250px;
+    width: 100%;
+    border-radius: 10px;
 
     border: none;
     color: var(--dark_color);
