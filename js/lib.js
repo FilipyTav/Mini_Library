@@ -1,11 +1,14 @@
 window.addEventListener("DOMContentLoaded", () => main());
 
-// Book constructor
-function Book(title, author, pages, have_read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.have_read = have_read;
+// Book class
+// TODO: Change into a factory function and make add_to_library function a method of the Book obj
+class Book {
+    constructor(title, author, pages, have_read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.have_read = have_read;
+    }
 }
 
 // Adds a book to the display after filling the form
