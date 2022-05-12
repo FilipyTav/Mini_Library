@@ -143,7 +143,52 @@ function get_panel_input() {
     let pages;
     let have_read;
 
+    // The submit button
     let submit_book = document.querySelector("#submit_book");
+
+    // Input fields
+    const book_title = document.querySelector("#book_title");
+    const book_author = document.querySelector("#book_author");
+    const book_pages = document.querySelector("#book_pages");
+
+    // SLightly more complex form validation
+    book_title.addEventListener("input", () => {
+        if (book_title.validity.tooLong || book_title.value.length > 20) {
+            book_title.setCustomValidity(
+                "Title cannot be longer than 20 characters"
+            );
+            book_title.reportValidity();
+        } else {
+            book_title.setCustomValidity("");
+        }
+    });
+
+    book_author.addEventListener("input", () => {
+        if (book_author.validity.tooLong || book_author.value.length > 20) {
+            book_author.setCustomValidity(
+                "Author name cannot be longer than 20 characters"
+            );
+            book_author.reportValidity();
+        } else {
+            book_author.setCustomValidity("");
+        }
+    });
+
+    book_pages.addEventListener("input", () => {
+        if (book_pages.validity.rangeOverflow || book_pages.value > 100000) {
+            book_pages.setCustomValidity(
+                "Book cannot have more than 100000 pages "
+            );
+            book_pages.reportValidity();
+            book_pages.value = 100000;
+        } else if (book_pages.validity.rangeUnderflow || book_pages.value < 0) {
+            book_pages.setCustomValidity("Please enter a positive number");
+            book_pages.reportValidity();
+            book_pages.value = 0;
+        } else {
+            book_pages.setCustomValidity("");
+        }
+    });
 
     submit_book.addEventListener("click", (e) => {
         // Stop the buttom from actually submitting and reloading the page
@@ -154,22 +199,31 @@ function get_panel_input() {
 
         // Checks for empty input
         title = book_data.get("title").trim();
-        if (!title) {
+        if (!title || !book_title.validity.valid) {
             alert("Invalid book title");
+            book_title.reportValidity();
             return false;
         }
 
         // Checks for empty input
         author = book_data.get("author").trim();
-        if (!author) {
+        if (!author || !book_author.validity.valid) {
             alert("Invalid book author");
+            book_author.reportValidity();
             return false;
         }
 
         // Checks for invalid input
         pages = book_data.get("pages");
-        if (!pages || isNaN(pages) || pages < 0 || pages > 100000) {
+        if (
+            !pages ||
+            isNaN(pages) ||
+            pages < 0 ||
+            pages > 100000 ||
+            !book_pages.validity.valid
+        ) {
             alert("Invalid number of pages");
+            book_pages.reportValidity();
             return false;
         }
 
